@@ -1,2 +1,2 @@
 # infa_2021_klyachina
-new repo
+it's test project

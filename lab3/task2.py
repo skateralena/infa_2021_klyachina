@@ -8,6 +8,48 @@ def transform(t, a, b):
 def p(x, y, ax, bx, ay, by):
     return (x * ax + bx, y * ay + by)
 
+def house(dest, brightness = 1, scale = 1):
+    color = (40 * brightness, 34 * brightness, 10 * brightness)
+    rect(dest, color, (33 * scale, 144 * scale, 417 * scale, 566 * scale))
+
+    t = (0, 145, 60, 100, 420, 100, 490, 145, 0, 145)
+    x = transform(t[::2], scale, 0)
+    y = transform(t[1::2], scale, 0)
+    polygon(dest, 'black', tuple(zip(x, y)))
+
+    color = (26 * brightness, 26 * brightness, 26 * brightness)
+    rect(dest, color, (93 * scale, 60 * scale, 17 * scale, 62 * scale))
+    rect(dest, color, (282 * scale, 71 * scale, 13 * scale, 29 * scale))
+    color = (51 * brightness, 51 * brightness, 51 * brightness)
+    ellipse(dest, color, (31 * scale, 2 * scale, 600 * scale, 74 * scale))
+    color = (26 * brightness, 26 * brightness, 26 * brightness)
+    rect(dest, color, (117 * scale, 0 * scale, 30 * scale, 130 * scale))
+    rect(dest, color, (385 * scale, 42 * scale, 15 * scale, 86 * scale))
+
+    color = (72 * brightness, 62 * brightness, 55 * brightness)
+    rect(dest, color, (63 * scale, 146 * scale, 46 * scale, 214 * scale))
+    rect(dest, color, (145 * scale, 146 * scale, 46 * scale, 214 * scale))
+    rect(dest, color, (247 * scale, 146 * scale, 46 * scale, 214 * scale))
+    rect(dest, color, (355 * scale, 146 * scale, 46 * scale, 214 * scale))
+
+    color = (26 * brightness, 26 * brightness, 26 * brightness)
+    rect(dest, color, (17 * scale, 290 * scale, 455 * scale, 26 * scale))
+    rect(dest, color, (3 * scale, 316 * scale, 14 * scale, 51 * scale))
+    rect(dest, color, (472 * scale, 316 * scale, 14 * scale, 51 * scale))
+    rect(dest, color, (57 * scale, 316 * scale, 26 * scale, 51 * scale))
+    rect(dest, color, (134 * scale, 316 * scale, 26 * scale, 51 * scale))
+    rect(dest, color, (211 * scale, 316 * scale, 26 * scale, 51 * scale))
+    rect(dest, color, (301 * scale, 316 * scale, 26 * scale, 51 * scale))
+    rect(dest, color, (389 * scale, 316 * scale, 26 * scale, 51 * scale))
+    rect(dest, color, (0 * scale, 367 * scale, 498 * scale, 58 * scale))
+
+    color = (43 * brightness, 17 * brightness, 0 * brightness)
+    rect(dest, color, (80 * scale, 550 * scale, 80 * scale, 100 * scale))
+    rect(dest, color, (206 * scale, 550 * scale, 80 * scale, 100 * scale))
+    color = (212 * brightness, 170 * brightness, 0 * brightness)
+    rect(dest, color, (325 * scale, 550 * scale, 80 * scale, 100 * scale))
+
+
 def ghost(dest, brightness = 1, scale = 1, flip = 1):
     t = (55, 46, 121, 21, 135, 24, 167, 51, 169, 52, 198, 80, 214, 90, 221, 97, 224, 111, 225, 127, 220, 134,
          212, 136, 199, 139, 192, 143, 187, 155, 185, 164, 176, 179, 151, 180, 138, 176, 123, 183, 108, 198,
@@ -39,20 +81,27 @@ def ghost(dest, brightness = 1, scale = 1, flip = 1):
     y = transform(t[1::2], ay, by)
     polygon(dest, color, tuple(zip(x, y)))
 
+
 def main():
     pygame.init()
 
     FPS = 30
-    screen = pygame.display.set_mode((400, 400))
+    screen = pygame.display.set_mode((600, 700))
+
+    rect(screen, (102, 102, 102), (0, 0, 600, 466))
+    circle(screen, (255, 255, 255), (550, 100), 70)
 
     surf1 = pygame.Surface((225, 206))
     surf2 = pygame.Surface((225, 206))
+    surfHouse1 = pygame.Surface((565, 700))
 
     ghost(surf1, 0.8, 1, 1)
     #ghost(screen, 0.5, 0.5, 1)
     ghost(surf2, 0.5, 0.5, -1)
-    screen.blit(surf1, (0, 0), special_flags=pygame.BLEND_ADD)
-    screen.blit(surf2, (0, 0), special_flags=pygame.BLEND_ADD)
+    #screen.blit(surf1, (0, 0), special_flags=pygame.BLEND_ADD)
+    #screen.blit(surf2, (0, 0), special_flags=pygame.BLEND_ADD)
+    house(screen, 1, 0.7)
+    #screen.blit(surfHouse1, (0, 100), special_flags=pygame.BLEND_ADD)
 
     pygame.display.update()
     clock = pygame.time.Clock()

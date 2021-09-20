@@ -9,6 +9,7 @@ def p(x, y, ax, bx, ay, by):
     return (x * ax + bx, y * ay + by)
 
 def house(dest, brightness = 1, scale = 1):
+    rect(dest, 'white', (0, 0, 600, 700))
     color = (40 * brightness, 34 * brightness, 10 * brightness)
     rect(dest, color, (33 * scale, 144 * scale, 417 * scale, 566 * scale))
 
@@ -19,7 +20,7 @@ def house(dest, brightness = 1, scale = 1):
 
     color = (26 * brightness, 26 * brightness, 26 * brightness)
     rect(dest, color, (93 * scale, 60 * scale, 17 * scale, 62 * scale))
-    rect(dest, color, (282 * scale, 71 * scale, 13 * scale, 29 * scale))
+    rect(dest, color, (282 * scale, 71 * scale, 13 * scale,30 * scale))
     color = (51 * brightness, 51 * brightness, 51 * brightness)
     ellipse(dest, color, (31 * scale, 2 * scale, 600 * scale, 74 * scale))
     color = (26 * brightness, 26 * brightness, 26 * brightness)
@@ -41,7 +42,7 @@ def house(dest, brightness = 1, scale = 1):
     rect(dest, color, (211 * scale, 316 * scale, 26 * scale, 51 * scale))
     rect(dest, color, (301 * scale, 316 * scale, 26 * scale, 51 * scale))
     rect(dest, color, (389 * scale, 316 * scale, 26 * scale, 51 * scale))
-    rect(dest, color, (0 * scale, 367 * scale, 498 * scale, 58 * scale))
+    rect(dest, color, (0 * scale, 366 * scale, 498 * scale, 58 * scale))
 
     color = (43 * brightness, 17 * brightness, 0 * brightness)
     rect(dest, color, (80 * scale, 550 * scale, 80 * scale, 100 * scale))
@@ -86,22 +87,29 @@ def main():
     pygame.init()
 
     FPS = 30
-    screen = pygame.display.set_mode((600, 700))
+    screen = pygame.display.set_mode((500, 650))
 
-    rect(screen, (102, 102, 102), (0, 0, 600, 466))
-    circle(screen, (255, 255, 255), (550, 100), 70)
+    rect(screen, (102, 102, 102), (0, 0, 500, 300))
+    circle(screen, (255, 255, 255), (415, 75), 45)
+    ellipse(screen, (26, 26, 26), (250, 165, 300, 50))
+
 
     surf1 = pygame.Surface((225, 206))
     surf2 = pygame.Surface((225, 206))
     surfHouse1 = pygame.Surface((565, 700))
 
-    ghost(surf1, 0.8, 1, 1)
+    ghost(surf1, 1, 0.6, 1)
     #ghost(screen, 0.5, 0.5, 1)
     ghost(surf2, 0.5, 0.5, -1)
-    #screen.blit(surf1, (0, 0), special_flags=pygame.BLEND_ADD)
+    screen.blit(surf1, (350, 480), special_flags=pygame.BLEND_ADD)
     #screen.blit(surf2, (0, 0), special_flags=pygame.BLEND_ADD)
-    house(screen, 1, 0.7)
-    #screen.blit(surfHouse1, (0, 100), special_flags=pygame.BLEND_ADD)
+    house(surfHouse1, 1, 0.6)
+    surfHouse1.set_colorkey('white')
+    surfHouse1.set_alpha(500)
+    screen.blit(surfHouse1, (0, 80), special_flags=pygame.BLEND_ALPHA_SDL2)
+
+    ellipse(screen, (77, 77, 77), (200, 55, 300, 50))
+    ellipse(screen, (77, 77, 77), (300, 110, 400, 50))
 
     pygame.display.update()
     clock = pygame.time.Clock()

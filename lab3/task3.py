@@ -114,6 +114,7 @@ def main():
     screen.blit(surf3, (70, 560), special_flags=pygame.BLEND_ADD)
 
     #screen.blit(surf2, (0, 0), special_flags=pygame.BLEND_ADD)
+    #house(surfHouse1, 1, 0.3)
     house(surfHouse1, 1, 0.3)
     surfHouse1.set_colorkey('white')
     surfHouse1.set_alpha(200)

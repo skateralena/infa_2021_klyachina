@@ -18,21 +18,24 @@ def house(dest, scale = 1):
     y = transform(t[1::2], scale, 0)
     polygon(dest, 'black', tuple(zip(x, y)))
 
+    #отрисовка труб + облако дыма(если надо)
     color = (26, 26, 26)
     rect(dest, color, (93 * scale, 60 * scale, 17 * scale, 62 * scale))
-    rect(dest, color, (282 * scale, 71 * scale, 13 * scale,30 * scale))
-    color = (51, 51, 51)
+    rect(dest, color, (282 * scale, 71 * scale, 13 * scale, 30 * scale))
+    #color = (51, 51, 51)
     #ellipse(dest, color, (31 * scale, 2 * scale, 600 * scale, 74 * scale))
     color = (26, 26, 26)
     rect(dest, color, (117 * scale, 0 * scale, 30 * scale, 130 * scale))
     rect(dest, color, (385 * scale, 42 * scale, 15 * scale, 86 * scale))
 
+    #отрисовка окон верхнего этажа
     color = (72, 62, 55)
     rect(dest, color, (63 * scale, 146 * scale, 46 * scale, 214 * scale))
     rect(dest, color, (145 * scale, 146 * scale, 46 * scale, 214 * scale))
     rect(dest, color, (247 * scale, 146 * scale, 46 * scale, 214 * scale))
     rect(dest, color, (355 * scale, 146 * scale, 46 * scale, 214 * scale))
 
+    #отрисовка балкончика
     color = (26, 26, 26)
     rect(dest, color, (17 * scale, 290 * scale, 455 * scale, 26 * scale))
     rect(dest, color, (3 * scale, 316 * scale, 14 * scale, 51 * scale))
@@ -44,6 +47,7 @@ def house(dest, scale = 1):
     rect(dest, color, (389 * scale, 316 * scale, 26 * scale, 51 * scale))
     rect(dest, color, (0 * scale, 366 * scale, 498 * scale, 58 * scale))
 
+    #отрисовка окон первого этажа
     color = (43, 17, 0)
     rect(dest, color, (80 * scale, 550 * scale, 80 * scale, 100 * scale))
     rect(dest, color, (206 * scale, 550 * scale, 80 * scale, 100 * scale))
@@ -52,7 +56,15 @@ def house(dest, scale = 1):
 
 
 def ghost(dest, scale = 1, flip = 1):
+    """
+        функция рисует привидение
+        dest (destination) - поверхность, на которой будет отрисовано привидение
+        scale - масштаб изображения, относительно исходного
+        flip - отражение изображения (flip = 1 изображение стандартное, flip = -1 изображение отраженное)
+    """
     rect(dest, 'green', (0, 0, 225, 206))
+
+    #отрисовка тела привидения
     t = (55, 46, 121, 21, 135, 24, 167, 51, 169, 52, 198, 80, 214, 90, 221, 97, 224, 111, 225, 127, 220, 134,
          212, 136, 199, 139, 192, 143, 187, 155, 185, 164, 176, 179, 151, 180, 138, 176, 123, 183, 108, 198,
          98, 204, 89, 207, 81, 205, 65, 184, 57, 179, 37, 168, 29, 169, 2, 173, 0, 173, 0, 170, 10, 155,
@@ -67,6 +79,7 @@ def ghost(dest, scale = 1, flip = 1):
     polygon(dest, color, tuple(zip(x, y)))
     circle(dest, color, p(92, 38, ax, bx, ay, by), 38 * scale)
 
+    #глаза привидения
     color = (135, 205, 222)
     circle(dest, color, p(70, 31, ax, bx, ay, by), 10 * scale)
     circle(dest, color, p(102, 27, ax, bx, ay, by), 10 * scale)

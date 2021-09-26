@@ -1,2 +1,3 @@
 # infa_2021_klyachina
-it's test project
+*it's test* **project**
+

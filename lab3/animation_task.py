@@ -4,93 +4,37 @@ from pygame.draw import *
 def main():
     pygame.init()
 
-    FPS = 30
+    FPS = 100
     screen = pygame.display.set_mode((500, 650))
 
-    background(screen)
-
-    surf1 = pygame.Surface((225, 206))
-    surf2 = pygame.Surface((225, 206))
-    surf3 = pygame.Surface((225, 206))
-    surfHouse1 = pygame.Surface((565, 700))
-
-    ghost(surf1, 0.6, 1)
-    surf1.set_colorkey('green')
-    surf1.set_alpha(255)
-    ghost(surf2, 0.3, 1)
-    surf2.set_colorkey('green')
-    surf2.set_alpha(200)
-    ghost(surf3, 0.3, -1)
-    surf3.set_colorkey('green')
-    surf3.set_alpha(200)
-    screen.blit(surf1, (350, 480), special_flags=pygame.BLEND_ALPHA_SDL2)
-    screen.blit(surf2, (320, 500), special_flags=pygame.BLEND_ALPHA_SDL2)
-    screen.blit(surf2, (400, 400), special_flags=pygame.BLEND_ALPHA_SDL2)
-    screen.blit(surf2, (420, 430), special_flags=pygame.BLEND_ALPHA_SDL2)
-    screen.blit(surf3, (50, 530), special_flags=pygame.BLEND_ALPHA_SDL2)
-    screen.blit(surf3, (70, 560), special_flags=pygame.BLEND_ALPHA_SDL2)
-
-    #screen.blit(surf2, (0, 0), special_flags=pygame.BLEND_ADD)
-    #house(surfHouse1, 1, 0.3)
-    house(surfHouse1, 0.3)
-    surfHouse1.set_colorkey('green')
-    surfHouse1.set_alpha(200)
-    screen.blit(surfHouse1, (160, 226), special_flags=pygame.BLEND_ALPHA_SDL2)
-    surfHouse1.set_alpha(150)
-    screen.blit(surfHouse1, (350, 132), special_flags=pygame.BLEND_ALPHA_SDL2)
-    surfHouse1.set_alpha(500)
-    screen.blit(surfHouse1, (0, 294), special_flags=pygame.BLEND_ALPHA_SDL2)
-
-    ellipse(screen, (77, 77, 77), (300, 105, 400, 40))
-    #rect(screen, (0, 0, 0), (0, 0, 100, 100))
-    animation(screen, 100)
-
-
-def animation(screen, FPS):
-    #rect(screen, (0, 0, 0), (0, 0, 100, 100))
-    surf1 = pygame.Surface((225, 206))
+    surf1 = pygame.Surface((300, 300))
     surf1.set_colorkey('green')
     surf1.set_alpha(255)
 
-    surf2 = pygame.Surface((225, 206))
+    surf2 = pygame.Surface((300, 300))
     surf2.set_colorkey('green')
     surf2.set_alpha(200)
 
-    surf3 = pygame.Surface((225, 206))
+    surf3 = pygame.Surface((300, 300))
     surf3.set_colorkey('green')
     surf3.set_alpha(200)
 
-    surfHouse1 = pygame.Surface((565, 700))
+    surfHouse = pygame.Surface((565, 700))
+    surfHouse.set_colorkey('green')
+    surfHouse.set_alpha(200)
 
-    surfHouse1.set_colorkey('green')
-    surfHouse1.set_alpha(200)
+    rotated_ghost = pygame.Surface((300, 300))
+    rotated_ghost.set_colorkey('green')
+    rotated_ghost.set_alpha(200)
+
+    d = {'surf1': surf1, 'surf2': surf2, 'surf3': surf3, 'surfHouse': surfHouse, 'rotated_ghost': rotated_ghost}
 
     clock = pygame.time.Clock()
     finished = False
     for i in range(0, 500):
-        x = i
-        background(screen)
-        clouds(screen, x, 0)
-        ghost(surf1, 0.6 + 0.001*i, 1)
-        screen.blit(surf1, (350 - x, 480), special_flags=pygame.BLEND_ALPHA_SDL2)
-        ghost(surf2, 0.3-0.0005*i, 1)
-        screen.blit(surf2, (320-0.1*i, 500), special_flags=pygame.BLEND_ALPHA_SDL2)
-        ghost(surf3, 0.3+0.001*i, -1)
-        screen.blit(surf3, (50 + 1.5*x, 530), special_flags=pygame.BLEND_ALPHA_SDL2)
-        screen.blit(surf3, (70 + x, 560), special_flags=pygame.BLEND_ALPHA_SDL2)
-        if i % 400 < 200:
-            surfHouse1.set_alpha(300 - x % 200)
-        else:
-            surfHouse1.set_alpha(100 + x % 200)
-        house(surfHouse1, 0.3)
-        screen.blit(surfHouse1, (160, 226), special_flags=pygame.BLEND_ALPHA_SDL2)
-        surfHouse1.set_alpha(150)
-        house(surfHouse1, 0.3)
-        screen.blit(surfHouse1, (350, 132), special_flags=pygame.BLEND_ALPHA_SDL2)
-
+        animation(i, screen, d)
         pygame.display.update()
         clock.tick(FPS)
-        #rect(screen, (0, 0, 0), (0, 0, 100, 100))
 
     pygame.display.update()
     while not finished:
@@ -100,6 +44,41 @@ def animation(screen, FPS):
                 finished = True
 
     pygame.quit()
+
+
+def animation(i, screen, d):
+    """
+    отрисовывает картину(дом с привидениями) в некоторый момент времени i
+    :param i: условный момент времени
+    :param screen: поверхность, на которой нарисуется картина
+    :param d: словарь всех объектов/поверхностей, которые нужно поместить на картину
+    :return:
+    """
+    x = i
+    background(screen)
+    clouds(screen, x, 0)
+    ghost(d['surf1'], 0.6 + 0.001*i, 1)
+    screen.blit(d['surf1'], (350 - x, 480), special_flags=pygame.BLEND_ALPHA_SDL2)
+    ghost(d['surf2'], 0.3 - 0.0004*i, 1)
+    screen.blit(d['surf2'], (320-0.45*i, 500-0.065*i), special_flags=pygame.BLEND_ALPHA_SDL2)
+    ghost(d['surf3'], 0.3+0.001*i, -1)
+    screen.blit(d['surf3'], (50 + 1.5*x, 530), special_flags=pygame.BLEND_ALPHA_SDL2)
+    screen.blit(d['surf3'], (70 + x, 560), special_flags=pygame.BLEND_ALPHA_SDL2)
+    if i % 400 < 200:
+        d['surfHouse'].set_alpha(300 - x % 200)
+    else:
+        d['surfHouse'].set_alpha(100 + x % 200)
+    house(d['surfHouse'], 0.3)
+    screen.blit(d['surfHouse'], (160, 226), special_flags=pygame.BLEND_ALPHA_SDL2)
+    d['surfHouse'].set_alpha(150)
+    house(d['surfHouse'], 0.3)
+    screen.blit(d['surfHouse'], (350, 132), special_flags=pygame.BLEND_ALPHA_SDL2)
+    d['surfHouse'].set_alpha(150)
+    house(d['surfHouse'], 0.3)
+    screen.blit(d['surfHouse'], (0, 294), special_flags=pygame.BLEND_ALPHA_SDL2)
+    ghost(d['rotated_ghost'], 0.3, 1)
+    rotated_surf = pygame.transform.rotate(d['rotated_ghost'], i)
+    screen.blit(rotated_surf, (0, 0), special_flags=pygame.BLEND_ALPHA_SDL2)
 
 def background(dest):
     """
@@ -112,6 +91,13 @@ def background(dest):
     circle(dest, (255, 255, 255), (415, 73), 45)
 
 def clouds(dest, x, y):
+    """
+    Функция рисует скопление облаков
+    :param dest: поверхность, на которой должны быть нарисованы облака
+    :param x: координата по x начала отсчета для поверхности
+    :param y: координата по y
+    :return:
+    """
     ellipse(dest, (51, 51, 51), (x + 10, y + 75, 380, 40))
     ellipse(dest, (77, 77, 77), (x + 200, y + 55, 300, 45))
     ellipse(dest, (77, 77, 77), (x + 80, y + 280, 450, 40))
@@ -127,7 +113,7 @@ def ghost(dest, scale = 1, flip = 1):
     :param flip: принимает значение -1, если изображение отражено, и +1, если исходное
     :return:
     """
-    rect(dest, 'green', (0, 0, 225, 206))
+    rect(dest, 'green', (0, 0, 300, 300))
 
     #отрисовка тела привидения
     t = (55, 46, 121, 21, 135, 24, 167, 51, 169, 52, 198, 80, 214, 90, 221, 97, 224, 111, 225, 127, 220, 134,

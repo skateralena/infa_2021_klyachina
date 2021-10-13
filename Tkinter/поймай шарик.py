@@ -8,14 +8,32 @@ root.geometry('800x600')
 canv = Canvas(root, bg='white')
 canv.pack(fill=BOTH, expand=1)
 
+scoreLabel = Label(root, bg='white', fg='black', width=40)
 label = Label(root, bg='white', fg='black', width=40)
+label['text'] = 'введите свое имя'
+label.pack()
+e = Entry(root, width=20)
+e.pack()
+b = Button(root, text='завершить игру')
+b.pack()
+
 global score
 score = 0
-label['text'] = 'score: ' + str(score)
-label.pack()
+scoreLabel['text'] = 'score: ' + str(score)
+scoreLabel.pack()
 colors = ['salmon', 'orange', 'yellow', 'greenyellow', 'plum', 'pink', 'lightblue', 'lightgreen', 'black', 'black']
 balls = []  # хранит данные о всех когда-либо существовавших шариках
 aliveBalls = set()   # множество номеров всех живых шариков из массива Balls
+
+notfinished = True
+
+def save_result(event):
+    global notfinished
+    name = e.get()
+    file = open('results.txt', 'a')
+    file.write(name + ' ' + str(score) + "\n")
+    file.close()
+    notfinished = False
 
 def new_ball():
     """функция создает новый шарик
@@ -45,6 +63,7 @@ def clickOnBall(event):
     иначе: ничего не делает
     '''
     global score
+    removedBalls = set()
     for i in aliveBalls:
         x = balls[i][0]
         y = balls[i][1]
@@ -53,11 +72,12 @@ def clickOnBall(event):
         if (x - event.x)**2 + (y - event.y)**2 <= r**2:
             if color == 'black':
                 score = 0
-                label['text'] = 'score: 0 !!!DO NOT CLICK ON BOMBS!!!'
+                scoreLabel['text'] = 'score: 0 !!!DO NOT CLICK ON BOMBS!!!'
             else:
                 score += 1
-                label['text'] = 'score: ' + str(score)
-            aliveBalls.remove(i)
+                scoreLabel['text'] = 'score: ' + str(score)
+            removedBalls.add(i)
+    aliveBalls.difference_update(removedBalls)
 
 def movingFunc():
     '''
@@ -87,15 +107,10 @@ def movingFunc():
 def main():
     if rnd(0, 20) == 1: new_ball()
     movingFunc()
-    root.after(50, main)
+    if notfinished:
+        root.after(50, main)
 
-
+b.bind('<Button-1>', save_result)
 main()
 canv.bind('<Button-1>', clickOnBall)
 root.mainloop()
-
-
-
-
-
-

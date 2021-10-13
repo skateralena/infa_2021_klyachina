@@ -33,6 +33,11 @@ def new_ball():
     balls.append([x, y, r, color, dx, dy])
     aliveBalls.add(len(balls)-1)
 
+def draw_bamb(x, y, r, color):
+    canv.create_oval(x - r, y - r, x + r, y + r, fill=color, width=0)
+    canv.create_polygon(x + 2*r//3, y - r, x+r, y - 2*r//3, x + 2*r//3, y - r//3, x + r//3, y - 2*r//3, x + 2*r//3, y - r, fill='black', width=0)
+    canv.create_line(x, y, x+r, y-r, x + 4*r//3, y-r, x + 7*r//6, y - r//3, x + 4*r//3, y,  smooth=1, width=2)
+
 def clickOnBall(event):
     '''
     функция определяет кликнули ли мышей по одному из живущих шариков
@@ -74,7 +79,10 @@ def movingFunc():
         if x - r <= 5 or x + r >= 795:
             balls[i][4] = -dx
         color = balls[i][3]
-        canv.create_oval(x-r, y-r, x+r, y+r, fill=color, width=0)
+        if color == 'black':
+            draw_bamb(x, y, r, 'black')
+        else:
+            canv.create_oval(x-r, y-r, x+r, y+r, fill=color, width=0)
 
 def main():
     if rnd(0, 20) == 1: new_ball()
